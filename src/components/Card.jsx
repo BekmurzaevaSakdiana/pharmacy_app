@@ -22,18 +22,20 @@ const Card = ({ pill }) => {
     setLike((prev) => {
       const newLikeState = !prev;
       const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-
+  
       if (newLikeState) {
         localStorage.setItem("favorites", JSON.stringify([...favorites, pill]));
       } else {
         const updatedFavorites = favorites.filter((fav) => fav.id !== pill.id);
         localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
       }
-
+  
+      window.dispatchEvent(new Event("favoritesChanged"));
+  
       return newLikeState;
     });
   };
-
+  
   return (
     <div className="card__item shadow-md max-w-[272px] w-full p-5">
       <div className="liked__btn">

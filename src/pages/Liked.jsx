@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Cart() {
+export default function Liked() {
   const navigate = useNavigate();
   const [favorites, setFavorites] = useState([]);
 
@@ -11,15 +11,31 @@ export default function Cart() {
   }, []);
 
   const handleRemoveFavorite = (id) => {
-    const updateFavorites=favorites.filter((pill)=>pill.id!==id)
-    localStorage.setItem("favorites",JSON.stringify(updateFavorites))
-    setFavorites(updateFavorites)
+    const updateFavorites = favorites.filter((pill) => pill.id !== id);
+    localStorage.setItem("favorites", JSON.stringify(updateFavorites));
+    setFavorites(updateFavorites);
+  
+    window.dispatchEvent(new Event("favoritesChanged"));
   };
+  
+
+  const handleMoveToCart = () => {
+    const currentCart = JSON.parse(localStorage.getItem("cart")) || [];
+  
+    const updatedCart = [...currentCart, ...favorites];
+  
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    localStorage.setItem("favorites", JSON.stringify([]));
+    setFavorites([]);
+  
+    window.dispatchEvent(new Event("favoritesChanged"));
+    window.dispatchEvent(new Event("cartChanged"));
+  };
+  
 
   return (
     <div className="bg-[#F9F9F9] py-10 min-h-screen">
       <div className="container">
-        {/* Кнопка назад */}
         <button
           onClick={() => navigate(-1)}
           className="flex items-center gap-2 text-[#30B856] font-medium hover:underline mb-6"
@@ -45,7 +61,6 @@ export default function Cart() {
           Избранные
         </h1>
 
-        {/* Если корзина пуста */}
         {favorites.length === 0 ? (
           <div className="bg-white shadow-md rounded-xl p-6 flex flex-col items-center justify-center text-center">
             <p className="text-[#144F24] text-lg font-medium">
@@ -57,7 +72,6 @@ export default function Cart() {
           </div>
         ) : (
           <div className="mt-10">
-            {/* Отображение списка товаров из favorites */}
             {favorites.map((pill) => (
               <div
                 key={pill.id}
@@ -85,8 +99,7 @@ export default function Cart() {
                 </button>
               </div>
             ))}
-            {/* Здесь можно добавить кнопку для оформления заказа */}
-            <button className="bg-[#30B856] text-white py-2 px-4 rounded-full mt-6">
+            <button onClick={handleMoveToCart} className="bg-[#30B856] text-white py-2 px-4 rounded-full mt-6">
               В корзину
             </button>
           </div>

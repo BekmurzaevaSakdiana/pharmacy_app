@@ -5,6 +5,7 @@ import Menu from "./Menu";
 const TheHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [hasFavorites, setHasFavorites] = useState(false);
+  const [hasItemsInCart, setHasItemsInCart] = useState(false);
 
   const handleOpen = () => {
     setIsOpen((prev) => !prev);
@@ -15,13 +16,21 @@ const TheHeader = () => {
     setHasFavorites(favoritePills.length > 0);
   };
 
+  const updateCart = () => {
+    const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+    setHasItemsInCart(cartItems.length > 0);
+  };
+
   useEffect(() => {
     updateFavorites();
+    updateCart();
 
     window.addEventListener("favoritesChanged", updateFavorites);
+    window.addEventListener("cartChanged", updateCart);
 
     return () => {
       window.removeEventListener("favoritesChanged", updateFavorites);
+      window.removeEventListener("cartChanged", updateCart);
     };
   }, []);
 
@@ -33,13 +42,9 @@ const TheHeader = () => {
     } else {
       favorites.push(pill);
     }
-  
     localStorage.setItem("favorites", JSON.stringify(favorites));
-  
-    // ВАЖНО: вот это обновит иконку в хедере
     window.dispatchEvent(new Event("favoritesChanged"));
   };
-  
 
   return (
     <header className="shadow-md">
@@ -59,8 +64,6 @@ const TheHeader = () => {
           </div>
 
           <div className="icons flex items-center gap-10 max-[1029px]:hidden">
-
-            
             <Link
               to={"/liked"}
               className="liked flex flex-col items-center gap-1"
@@ -82,6 +85,11 @@ const TheHeader = () => {
               <p className="font-medium text-md hover:text-mainColor">
                 Корзина
               </p>
+              {hasItemsInCart && (
+                <span className="absolute top-10 right-[119px] bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                  !
+                </span>
+              )}
             </Link>
 
             <Link

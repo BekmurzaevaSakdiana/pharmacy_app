@@ -1,0 +1,38 @@
+[
+    {
+      "id": 1,
+      "name": "Аспирин",
+      "price": 120,
+      "manufacturer": "Bayer",
+      "image": "https://cvetnaya.kz/images/detailed/36/5494463.png"
+    },
+    {
+      "id": 2,
+      "name": "Парацетамол",
+      "price": 90,
+      "manufacturer": "PharmaMed",
+      "image": "https://social-apteka.ru/upload/resize_cache/iblock/63d/3kq69k0w1266t23gx13yszwa49c9hvg6/700_700_1d3f5bf856b433eb078d9cb9f96f83161/paratsetamolreneval500mg20shttubatabletkishipuchie.jpeg"
+    },
+    {
+      "id": 3,
+      "name": "Ибупрофен",
+      "price": 150,
+      "manufacturer": "ZdravCity",
+      "image": "https://borimed.com/sites/default/files/product/%D0%98%D0%B1%D1%83%D0%BF%D1%80%D0%BE%D1%84%D0%B5%D0%BD-200-new.jpg"
+    },
+    {
+      "id": 4,
+      "name": "Цитрамон",
+      "price": 75,
+      "manufacturer": "Фармстандарт",
+      "image": "https://biysk.asevalar.ru/upload/iblock/d7a/d7a1ac8df10ac2b0100f89897afab939_1920_1080.jpg"
+    },
+    {
+      "id": 5,
+      "name": "Но-шпа",
+      "price": 180,
+      "manufacturer": "Sanofi",
+      "image": "https://fam-alliance.kz/wp-content/uploads/2021/02/shpa-80-mg-24.jpg"
+    }
+  ]
+  

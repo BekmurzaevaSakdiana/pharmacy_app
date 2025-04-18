@@ -54,6 +54,35 @@ export default function Cart() {
     0
   );
 
+  const handlePurchase = () => {
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+    if (!currentUser) {
+      alert("Пожалуйста, войдите в аккаунт для оформления заказа.");
+      navigate("/login");
+      return;
+    }
+
+    const previousPurchases = currentUser.purchases || [];
+
+    const newPurchases = [...previousPurchases, ...cartItems];
+
+    const updatedUser = {
+      ...currentUser,
+      purchases: newPurchases,
+    };
+
+    localStorage.setItem("currentUser", JSON.stringify(updatedUser));
+    localStorage.setItem("cart", JSON.stringify([])); // Очищаем корзину
+    setCartItems([]); // Обновляем стейт
+    window.dispatchEvent(new Event("cartChanged"));
+    localStorage.setItem("cart", JSON.stringify([])); // очищает localStorage
+    setCartItems([]);                                 // очищает из верстки
+    
+    alert("Заказ оформлен! Спасибо за покупку 😊");
+    navigate("/"); // можно убрать, если не хочешь редирект
+  };
+
   return (
     <div className="bg-[#F9F9F9] py-10 min-h-screen">
       <div className="container">
@@ -153,7 +182,10 @@ export default function Cart() {
             </div>
 
             <div className="flex justify-center">
-              <button className="bg-[#30B856] text-white py-2 px-4 rounded-full mt-6  ">
+              <button
+                onClick={handlePurchase}
+                className="bg-[#30B856] text-white py-2 px-4 rounded-full mt-6  "
+              >
                 Оформить заказ
               </button>
             </div>

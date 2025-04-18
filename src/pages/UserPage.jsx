@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 export default function UserPage() {
   const [user, setUser] = useState(null);
+
   useEffect(() => {
     const storedUser = localStorage.getItem("currentUser");
     if (storedUser) {
@@ -32,18 +33,19 @@ export default function UserPage() {
         <span>{user.password}</span>
       </div>
 
-      {user.purchases.length > 0 ? (
-        <ul className="list-disc list-inside space-y-2">
-          <h2
-            className="text-xl font-semibold mb-3"
-            style={{ color: "#30B856" }}
-          >
+      {user.purchases && user.purchases.length > 0 ? (
+        <>
+          <h2 className="text-xl font-semibold mb-3" style={{ color: "#30B856" }}>
             Купленные товары
           </h2>
-          {user.purchases.map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-        </ul>
+          <ul className="list-disc list-inside space-y-2">
+            {user.purchases.map((item, index) => (
+              <li key={index}>
+                {item.name} — {item.count} шт. ({item.price})
+              </li>
+            ))}
+          </ul>
+        </>
       ) : (
         <p>Пока нет покупок</p>
       )}

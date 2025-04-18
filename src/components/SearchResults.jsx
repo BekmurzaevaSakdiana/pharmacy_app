@@ -28,11 +28,11 @@ const SearchResults = ({ searchTerm }) => {
   }, [searchTerm, products]);
 
   if (!searchTerm) {
-    return <p className="p-4 text-gray-500">Введите поисковой запрос</p>;
+    return <p className="p-4 text-gray-500 text-center mt-[100px] mb-12">Введите поисковой запрос</p>;
   }
 
   if (filtered.length === 0) {
-    return <p className="p-4 text-gray-500">Ничего не найдено</p>;
+    return <p className="p-4 text-gray-500 text-center mt-[100px] mb-12">Ничего не найдено</p>;
   }
 
   return (

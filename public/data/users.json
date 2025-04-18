@@ -3,20 +3,17 @@
     {
       "name": "Пользователь 1",
       "email": "user1@example.com",
-      "password": "password123",
-      "purchases": []
+      "password": "password123"
     },
     {
       "name": "Пользователь 2",
       "email": "user2@example.com",
-      "password": "securepass456",
-      "purchases": []
+      "password": "securepass456"
     },
     {
       "name": "sakdi",
       "email": "sakdi@gmail.com",
-      "password": "1212",
-      "purchases": []
+      "password": "1212"
     }
   ]
 }

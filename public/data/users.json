@@ -1,16 +1,22 @@
 {
   "users": [
     {
+      "name": "Пользователь 1",
       "email": "user1@example.com",
-      "password": "password123"
+      "password": "password123",
+      "purchases": []
     },
     {
+      "name": "Пользователь 2",
       "email": "user2@example.com",
-      "password": "securepass456"
+      "password": "securepass456",
+      "purchases": []
     },
     {
-      "email": "user3@example.com",
-      "password": "mypassword789"
+      "name": "sakdi",
+      "email": "sakdi@gmail.com",
+      "password": "1212",
+      "purchases": []
     }
   ]
 }

@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Menu from "./Menu";
 
 const TheHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [hasFavorites, setHasFavorites] = useState(false);
   const [hasItemsInCart, setHasItemsInCart] = useState(false);
+  const [userExist, setUserExist] = useState(false);
+
+  const isUserExist = () => {
+    const user = localStorage.getItem("currentUser");
+    return user ? JSON.parse(user) : null;
+  };
 
   const handleOpen = () => {
     setIsOpen((prev) => !prev);
@@ -22,6 +28,8 @@ const TheHeader = () => {
   };
 
   useEffect(() => {
+    const currentUser = isUserExist();
+    setUserExist(currentUser);
     updateFavorites();
     updateCart();
 
@@ -36,7 +44,7 @@ const TheHeader = () => {
 
   const toggleFavorite = (pill) => {
     let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-  
+
     if (favorites.some((fav) => fav.id === pill.id)) {
       favorites = favorites.filter((fav) => fav.id !== pill.id);
     } else {
@@ -92,13 +100,27 @@ const TheHeader = () => {
               )}
             </Link>
 
-            <Link
-              to={"/login"}
-              className="liked flex flex-col items-center gap-1"
-            >
-              <img src="/svg/login.svg" alt="" />
-              <p className="font-medium text-md hover:text-mainColor">Войти</p>
-            </Link>
+            {userExist ? (
+              <Link
+                to={"/userPage"}
+                className="liked flex flex-col items-center gap-1"
+              >
+                <img src="/svg/login.svg" alt="" />
+                <p className="font-medium text-black text-md hover:text-mainColor">
+                  {userExist.name}
+                </p>
+              </Link>
+            ) : (
+              <Link
+                to={"/login"}
+                className="liked flex flex-col items-center gap-1"
+              >
+                <img src="/svg/login.svg" alt="" />
+                <p className="font-medium text-md hover:text-mainColor">
+                  Войти
+                </p>
+              </Link>
+            )}
           </div>
 
           <div onClick={handleOpen} className="menu hidden max-[1029px]:block">

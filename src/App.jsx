@@ -5,6 +5,7 @@ import Liked from './pages/Liked'
 import Cart from './pages/cart'
 import Login from './pages/login'
 import Auth from './pages/Auth'
+import UserPage from './pages/UserPage'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
         <Route path="/auth" element={<Auth />} />
+        <Route path="/userPage" element={<UserPage />} />
       </Route>
     </Routes>
   )

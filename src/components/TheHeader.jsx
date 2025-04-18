@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Menu from "./Menu";
+import SearchResults from "./SearchResults";
 
 const TheHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [hasFavorites, setHasFavorites] = useState(false);
   const [hasItemsInCart, setHasItemsInCart] = useState(false);
   const [userExist, setUserExist] = useState(false);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const [searchInput, setSearchInput] = useState("");
 
   const isUserExist = () => {
     const user = localStorage.getItem("currentUser");
@@ -67,8 +72,41 @@ const TheHeader = () => {
               className="w-full outline-none"
               type="text"
               placeholder="Поиск"
+              value={searchInput}
+              onChange={(e) => {
+                const value = e.target.value;
+                setSearchInput(value);
+
+                if (value.trim() === "") {
+                  setSearchParams({});
+                  navigate("/");
+                }
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  if (searchInput.trim()) {
+                    setSearchParams({ search: searchInput.trim() });
+                    navigate(
+                      `/?search=${encodeURIComponent(searchInput.trim())}`
+                    );
+                  }
+                }
+              }}
             />
-            <img src="/svg/search.svg" alt="" />
+
+            <img
+              src="/svg/search.svg"
+              alt=""
+              className="cursor-pointer"
+              onClick={() => {
+                if (searchInput.trim()) {
+                  setSearchParams({ search: searchInput.trim() });
+                  navigate(
+                    `/?search=${encodeURIComponent(searchInput.trim())}`
+                  );
+                }
+              }}
+            />
           </div>
 
           <div className="icons flex items-center gap-10 max-[1029px]:hidden">

@@ -11,16 +11,13 @@ export default function Menu({ handleOpen }) {
     }
   }, []);
 
- 
-
   return (
     <div>
       <div className="fixed top-0 left-0 right-0 bottom-0   z-50 flex justify-center bg-black bg-opacity-50 backdrop-blur-sm  items-center min-h-screen h-full">
         <div
           className="bg-white p-6 rounded-xl shadow-lg w-4/5 md:w-1/2 relative"
-          onClick={(e) => e.stopPropagation()} // Чтобы не закрывался при клике на контент
+          onClick={(e) => e.stopPropagation()}
         >
-          {/* Крестик для закрытия меню */}
           <button
             onClick={handleOpen}
             className="absolute top-3 right-3 text-xl text-[#144F24]"
@@ -28,7 +25,6 @@ export default function Menu({ handleOpen }) {
             ✕
           </button>
 
-          {/* Ссылки */}
           <ul className="flex flex-col items-center space-y-4">
             <li>
               <Link

@@ -15,8 +15,10 @@ function App() {
         <Route path="/liked" element={<Liked />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/auth" element={<Auth />} />
+        <Route path="/auth" element={<Auth />} /> 
         <Route path="/userPage" element={<UserPage />} />
+       
+
       </Route>
     </Routes>
   )

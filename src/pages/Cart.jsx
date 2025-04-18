@@ -5,13 +5,15 @@ export default function Cart() {
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
 
-  // Загружаем товары из localStorage при монтировании компонента
   useEffect(() => {
     const storedCartItems = JSON.parse(localStorage.getItem("cart")) || [];
-    setCartItems(storedCartItems);
+    const cartWithDefaultCount = storedCartItems.map((item) => ({
+      ...item,
+      count: item.count ?? 1,
+    }));
+    setCartItems(cartWithDefaultCount);
   }, []);
 
-  // Увеличиваем количество товара
   const handleIncrement = (id) => {
     const updatedCartItems = cartItems.map((item) => {
       if (item.id === id) {
@@ -21,9 +23,9 @@ export default function Cart() {
     });
     setCartItems(updatedCartItems);
     localStorage.setItem("cart", JSON.stringify(updatedCartItems));
+    window.dispatchEvent(new Event("cartChanged"));
   };
 
-  // Уменьшаем количество товара, если становится 0 — удаляем
   const handleDecrement = (id) => {
     const updatedCartItems = cartItems
       .map((item) => {
@@ -32,17 +34,18 @@ export default function Cart() {
         }
         return item;
       })
-      .filter((item) => item.count > 0); // Удаляем если count 0
+      .filter((item) => item.count > 0);
 
     setCartItems(updatedCartItems);
     localStorage.setItem("cart", JSON.stringify(updatedCartItems));
+    window.dispatchEvent(new Event("cartChanged"));
   };
 
-  // Удаляем товар из корзины
   const handleRemoveItem = (id) => {
     const updatedCartItems = cartItems.filter((item) => item.id !== id);
     setCartItems(updatedCartItems);
     localStorage.setItem("cart", JSON.stringify(updatedCartItems));
+    window.dispatchEvent(new Event("cartChanged"));
   };
 
   // Считаем итоговую сумму
@@ -91,59 +94,69 @@ export default function Cart() {
           </div>
         ) : (
           <div className="mt-10">
-            {cartItems.map((item) => (
-              <div
-                key={item.id}
-                className="bg-white shadow-md rounded-xl p-6 mb-6 flex items-center gap-4 relative"
-              >
-                {/* Кнопка-крестик для удаления */}
-                <button
-                  onClick={() => handleRemoveItem(item.id)}
-                  className="absolute top-4 right-4 text-xl text-gray-500 hover:text-red-500"
+            <div>
+              {cartItems.map((item) => (
+                <div
+                  key={item.id}
+                  className="bg-white shadow-md rounded-xl p-6 mb-6 flex  items-center gap-12 relative  max-[480px]:flex-col max-[480px]:items-start"
                 >
-                  ✖
-                </button>
+                  {/* Кнопка-крестик для удаления */}
+                  <button
+                    onClick={() => handleRemoveItem(item.id)}
+                    className="absolute top-4 right-4 text-xl text-gray-500 hover:text-red-500"
+                  >
+                    ✖
+                  </button>
 
-                <img
-                  className="w-20 h-20 object-cover"
-                  src={item.image}
-                  alt={item.name}
-                />
-                <div>
-                  <h3 className="text-lg font-medium text-[#144F24]">
-                    {item.name}
-                  </h3>
-                  <p className="text-sm text-gray-500">Цена: {item.price} ₽</p>
-                  <p className="text-sm text-gray-500">
-                    Производитель: {item.manufacturer}
-                  </p>
-                  <div className="mt-5 flex items-center gap-5">
-                    <p className="text-sm text-gray-500">Количество: </p>
-                    <button
-                      onClick={() => handleDecrement(item.id)}
-                      className="ml-2 text-xl text-white rounded-lg px-3 bg-mainColor"
-                    >
-                      -
-                    </button>
-                    <p className="text-black">{item.count}</p>
-                    <button
-                      onClick={() => handleIncrement(item.id)}
-                      className="ml-2 text-xl text-white rounded-lg px-3 bg-mainColor"
-                    >
-                      +
-                    </button>
+                  <img
+                    className="w-32 h-24 object-cover max-[480px]:w-64
+                       max-[480px]:mt-3 max-[480px]:mx-auto"
+                    src={item.image}
+                    alt={item.name}
+                  />
+
+                  <div>
+                    <div>
+                      <h3 className="text-lg font-medium text-[#144F24]">
+                        {item.name}
+                      </h3>
+                      <p className="text-sm text-gray-500">
+                        Цена: {item.price}
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        Производитель: {item.manufacturer}
+                      </p>
+                    </div>
+
+                    <div className="mt-5 flex items-center gap-5">
+                      <p className="text-sm text-gray-500">Количество: </p>
+                      <button
+                        onClick={() => handleDecrement(item.id)}
+                        className="ml-2 text-xl text-white rounded-lg px-3 bg-mainColor"
+                      >
+                        -
+                      </button>
+                      <p className="text-black">{item.count}</p>
+                      <button
+                        onClick={() => handleIncrement(item.id)}
+                        className="ml-2 text-xl text-white rounded-lg px-3 bg-mainColor"
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-
-            <div className="text-right text-lg font-bold">
-              <p>Общая сумма: {totalPrice} ₽</p>
+              ))}
+            </div>
+            <div className="mt-12 text-lg font-bold text-center">
+              <p>Общая сумма: {totalPrice} </p>
             </div>
 
-            <button className="bg-[#30B856] text-white py-2 px-4 rounded-full mt-6">
-              Оформить заказ
-            </button>
+            <div className="flex justify-center">
+              <button className="bg-[#30B856] text-white py-2 px-4 rounded-full mt-6  ">
+                Оформить заказ
+              </button>
+            </div>
           </div>
         )}
       </div>

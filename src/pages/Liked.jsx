@@ -86,7 +86,7 @@ export default function Liked() {
                   <h3 className="text-lg font-medium text-[#144F24]">
                     {pill.name}
                   </h3>
-                  <p className="text-sm text-gray-500">Цена: {pill.price} ₽</p>
+                  <p className="text-sm text-gray-500">Цена: {pill.price}</p>
                   <p className="text-sm text-gray-500">
                     Производитель: {pill.manufacturer}
                   </p>

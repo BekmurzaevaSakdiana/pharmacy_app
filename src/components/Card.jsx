@@ -32,15 +32,13 @@ const Card = ({ pill }) => {
     const existingItemIndex = cart.findIndex((item) => item.id === pill.id);
 
     if (existingItemIndex !== -1) {
-      // Товар уже есть в корзине, увеличим количество
       cart[existingItemIndex].count += 1;
     } else {
-      // Товара нет, добавим с count: 1
       cart.push({ ...pill, count: 1 });
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
-    window.dispatchEvent(new Event("cartChanged")); // Можно слушать в других местах
+    window.dispatchEvent(new Event("cartChanged"));
   };
 
   return (
@@ -66,7 +64,7 @@ const Card = ({ pill }) => {
       </div>
 
       <div className="price mt-8">
-        <p className="text-4xl font-bold text-start">{pill.price} ₽</p>
+        <p className="text-4xl font-bold text-start">{pill.price} </p>
       </div>
 
       <div className="btn max-w-[232px] w-full mt-4">
